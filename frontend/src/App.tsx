@@ -62,6 +62,25 @@ const App = () => {
                   )}
                 </Nav.Item>
               </Link>
+              {user?.isAdmin && (
+                <NavDropdown
+                  title={`ADMIN`}
+                  id="basic-nav-dropdown"
+                  drop="down-centered"
+                  align={{ xxl: "start" }}
+                >
+                  <NavDropdown.Item>
+                    <Link className="dropdown-item" to={"/admin/products"}>
+                      Products
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <Link className="dropdown-item" to={"/admin/orders"}>
+                      Orders
+                    </Link>
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
               {user ? (
                 <>
                   <NavDropdown
@@ -75,13 +94,6 @@ const App = () => {
                         Order History
                       </Link>
                     </NavDropdown.Item>
-                    {user.isAdmin && (
-                      <NavDropdown.Item>
-                        <Link className="dropdown-item" to={"/orders/admin"}>
-                          Order History (Admin)
-                        </Link>
-                      </NavDropdown.Item>
-                    )}
                     <NavDropdown.Item>
                       <Link
                         className="dropdown-item"
@@ -91,14 +103,6 @@ const App = () => {
                         Sign Out
                       </Link>
                     </NavDropdown.Item>
-                    {/* <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        
-                      </ListGroup.Item>
-                    </ListGroup> */}
                   </NavDropdown>
                 </>
               ) : (

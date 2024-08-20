@@ -27,13 +27,17 @@ import OrderPage from "./pages/OrderPage.tsx";
 import OrdersPage from "./pages/OrdersPage.tsx";
 import AdminRoute from "./components/AdminRoute.tsx";
 import OrdersAdminPage from "./pages/OrdersAdminPage.tsx";
+import ProductsAdminPage from "./pages/ProductsAdminPage.tsx";
+import ProductDetailsAdminPage from "./pages/ProductDetailsAdminPage.tsx";
+import EditProductPage from "./pages/EditProductPage.tsx";
+import AddProductPage from "./pages/AddProductPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} element={<HomePage />} />
-      <Route path="product/:slug" element={<ProductPage />} />
-      <Route path="cart" element={<CartPage />} />
+      <Route path="/product/:slug" element={<ProductPage />} />
+      <Route path="/cart" element={<CartPage />} />
       <Route path="/signin" element={<SigninPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="" element={<ProtectedRoute />}>
@@ -43,8 +47,12 @@ const router = createBrowserRouter(
         <Route path="/orders/:id" element={<OrderPage />} />
         <Route path="/orders/" element={<OrdersPage />} />
       </Route>
-      <Route path="" element={<AdminRoute />}>
-        <Route path="/orders/admin" element={<OrdersAdminPage />} />
+      <Route path="/admin/" element={<AdminRoute />}>
+        <Route path="orders/" element={<OrdersAdminPage />} />
+        <Route path="products/" element={<ProductsAdminPage />} />
+        <Route path="products/add" element={<AddProductPage />} />
+        <Route path="products/:slug" element={<ProductDetailsAdminPage />} />
+        <Route path="products/:slug/edit" element={<EditProductPage />} />
       </Route>
 
       {/* <Route path="dashboard" element={<Dashboard />} /> */}
