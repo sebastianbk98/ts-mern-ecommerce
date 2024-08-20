@@ -47,7 +47,7 @@ productRouter.get(
 productRouter.post(
   "/admin/",
   isAdmin,
-  upload.single("product-image"),
+  upload.single("image"),
   AsyncHandler(async (req: Request, res: Response) => {
     try {
       const {
@@ -100,42 +100,29 @@ productRouter.put(
   isAdmin,
   AsyncHandler(async (req: Request, res: Response) => {
     try {
-      const {
-        name,
-        brand,
-        category,
-        description,
-        price,
-        countInStock,
-        rating,
-        numReviews,
-      } = req.body;
-      const oldProduct = await ProductModel.findById(req.params.id);
-      if (!oldProduct) {
+      const { name, brand, category, description, price, countInStock } =
+        req.body;
+      let product = await ProductModel.findById(req.params.id);
+      if (!product) {
         res.status(404).json({ message: "Product Not Found", product: null });
         return;
       }
-      let slug = oldProduct.slug;
-      if (oldProduct.name !== name) {
+      let slug = product.slug;
+      if (product.name !== name) {
         slug = name.split(" ").join("-");
         while (await ProductModel.exists({ slug: slug })) {
           slug = slug + Math.round(Math.random() * 1e5);
         }
       }
-      const product = await ProductModel.create({
-        name,
-        slug,
-        brand,
-        category,
-        description,
-        price,
-        countInStock,
-        rating,
-        numReviews,
-      });
-      res
-        .status(201)
-        .json({ message: "Success updating product", product: product });
+      product.name = name;
+      product.slug = slug;
+      product.price = price;
+      product.brand = brand;
+      product.description = description;
+      product.category = category;
+      product.countInStock = countInStock;
+      await product.save();
+      res.json({ message: "Success updating product", product: product });
       return;
     } catch (error) {
       console.error(error);
@@ -153,11 +140,11 @@ productRouter.delete(
   AsyncHandler(async (req: Request, res: Response) => {
     try {
       await ProductModel.deleteOne({ _id: req.params.id });
-      res.json({ message: "Success deleting product" });
+      res.json({ message: "success" });
       return;
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Error deleting product" });
+      res.status(500).json({ message: error });
       return;
     }
   })
