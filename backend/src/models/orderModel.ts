@@ -51,7 +51,7 @@ class PaymentResult {
 @modelOptions({ schemaOptions: { timestamps: true } })
 export class Order {
   public _id!: string;
-  @prop()
+  @prop({ type: () => [Item] })
   public orderItems!: Item[];
   @prop()
   public shippingAddress?: ShippingAddress;

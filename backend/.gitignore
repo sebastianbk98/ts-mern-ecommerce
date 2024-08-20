@@ -1,7 +1,7 @@
 /node_modules
 /build
 .env
-
+/src/public/images/*
 # System Files
 .DS_Store
 Thumbs.db

@@ -75,7 +75,11 @@ const ProductPage = () => {
       </Helmet>
       <Row>
         <Col md={6}>
-          <img className="large" src={product.image} alt={product.name} />
+          <img
+            className="large"
+            src={`http://localhost:8080/${product.image}`}
+            alt={product.name}
+          />
         </Col>
         <Col md={3}>
           <ListGroup variant="flush">

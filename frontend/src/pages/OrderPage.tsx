@@ -64,7 +64,6 @@ function OrderPage() {
     }
     if (isSuccess) {
       if (orderQuery) {
-        console.log(orderQuery.user, user._id);
         if (user._id !== orderQuery.user && !user.isAdmin) {
           navigate("/orders");
           return;
@@ -143,7 +142,7 @@ function OrderPage() {
                     <Row className="align-items-center">
                       <Col md={6}>
                         <img
-                          src={item.image}
+                          src={`http://localhost:8080/${item.image}`}
                           alt={item.name}
                           className="img-fluid rounded thumbnail"
                         ></img>{" "}

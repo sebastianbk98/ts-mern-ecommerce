@@ -32,7 +32,11 @@ function ProductItem({ product }: { product: Product }) {
   return (
     <Card>
       <Link to={"/product/" + product.slug}>
-        <img src={product.image} alt={product.name} className="card-img-top" />
+        <img
+          src={`http://localhost:8080/${product.image}`}
+          alt={product.name}
+          className="card-img-top"
+        />
       </Link>
       <CardBody>
         <Link to={"/product/" + product.slug}>

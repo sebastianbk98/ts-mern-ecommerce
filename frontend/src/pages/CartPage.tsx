@@ -57,7 +57,7 @@ const CartPage = () => {
                   <Row className="align-items-center">
                     <Col md={4}>
                       <img
-                        src={item.image}
+                        src={`http://localhost:8080/${item.image}`}
                         alt={item.name}
                         className="img-fluid rounded thumbnail"
                       />{" "}

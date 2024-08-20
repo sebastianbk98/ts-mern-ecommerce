@@ -1,14 +1,30 @@
 import { Request, Response, Router } from "express";
 
-import asyncHandler from "express-async-handler";
+import AsyncHandler from "express-async-handler";
 import { ProductModel } from "../models/productModel";
+import { isAdmin } from "../utils";
+import path from "path";
+import multer from "multer";
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadPath = path.join(__dirname, "../public/images");
+    cb(null, uploadPath);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e5);
+    cb(null, uniqueSuffix + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 export const productRouter = Router();
 
 // /api/products
 productRouter.get(
   "/",
-  asyncHandler(async (req: Request, res: Response) => {
+  AsyncHandler(async (req: Request, res: Response) => {
     const product = await ProductModel.find();
     res.json(product);
     return;
@@ -17,7 +33,7 @@ productRouter.get(
 
 productRouter.get(
   "/:slug",
-  asyncHandler(async (req: Request, res: Response) => {
+  AsyncHandler(async (req: Request, res: Response) => {
     const product = await ProductModel.findOne({ slug: req.params.slug });
     if (product) {
       res.json(product);
@@ -25,5 +41,124 @@ productRouter.get(
     }
     res.status(404).json({ message: "Product Not Found" });
     return;
+  })
+);
+
+productRouter.post(
+  "/admin/",
+  isAdmin,
+  upload.single("product-image"),
+  AsyncHandler(async (req: Request, res: Response) => {
+    try {
+      const {
+        name,
+        brand,
+        category,
+        description,
+        price,
+        countInStock,
+        rating,
+        numReviews,
+      } = req.body;
+      const image = req.file?.filename;
+      if (!image) {
+        res.status(400).json({ message: "Image is required", product: null });
+        return;
+      }
+      let slug = name.split(" ").join("-");
+      while (await ProductModel.exists({ slug: slug })) {
+        slug = slug + Math.round(Math.random() * 1e5);
+      }
+      const product = await ProductModel.create({
+        name,
+        slug,
+        image: `images/${image}`,
+        brand,
+        category,
+        description,
+        price,
+        countInStock,
+        rating,
+        numReviews,
+      });
+      res
+        .status(201)
+        .json({ message: "Success creating product", product: product });
+      return;
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ message: "Error creating product", product: null });
+      return;
+    }
+  })
+);
+
+productRouter.put(
+  "/admin/:id",
+  isAdmin,
+  AsyncHandler(async (req: Request, res: Response) => {
+    try {
+      const {
+        name,
+        brand,
+        category,
+        description,
+        price,
+        countInStock,
+        rating,
+        numReviews,
+      } = req.body;
+      const oldProduct = await ProductModel.findById(req.params.id);
+      if (!oldProduct) {
+        res.status(404).json({ message: "Product Not Found", product: null });
+        return;
+      }
+      let slug = oldProduct.slug;
+      if (oldProduct.name !== name) {
+        slug = name.split(" ").join("-");
+        while (await ProductModel.exists({ slug: slug })) {
+          slug = slug + Math.round(Math.random() * 1e5);
+        }
+      }
+      const product = await ProductModel.create({
+        name,
+        slug,
+        brand,
+        category,
+        description,
+        price,
+        countInStock,
+        rating,
+        numReviews,
+      });
+      res
+        .status(201)
+        .json({ message: "Success updating product", product: product });
+      return;
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ message: "Error updating product", product: null });
+      return;
+    }
+  })
+);
+
+productRouter.delete(
+  "/admin/:id",
+  isAdmin,
+  AsyncHandler(async (req: Request, res: Response) => {
+    try {
+      await ProductModel.deleteOne({ _id: req.params.id });
+      res.json({ message: "Success deleting product" });
+      return;
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error deleting product" });
+      return;
+    }
   })
 );
