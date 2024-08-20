@@ -8,6 +8,19 @@ export const useGetProductsQuery = () =>
     queryFn: async () => (await apiClient.get<Product[]>(`products`)).data,
   });
 
+export const useGetLatestProductsQuery = () =>
+  useQuery({
+    queryKey: ["products", "latest"],
+    queryFn: async () =>
+      (await apiClient.get<Product[]>(`products/latest`)).data,
+  });
+
+export const useGetTop4ProductsQuery = () =>
+  useQuery({
+    queryKey: ["products", "top4"],
+    queryFn: async () => (await apiClient.get<Product[]>(`products/top4`)).data,
+  });
+
 export const useGetProductDetailsBySlugQuery = (slug: string) =>
   useQuery({
     queryKey: ["products", slug],

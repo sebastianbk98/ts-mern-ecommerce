@@ -36,7 +36,7 @@ const App = () => {
         theme={mode}
         autoClose={1500}
       />
-      <header>
+      <header className={mode === "light" ? "bg-light" : "bg-dark"}>
         <Navbar expand="lg" className="px-5">
           <Link className="nav-link" to="/">
             <Navbar.Brand>TS/E-Commerce</Navbar.Brand>

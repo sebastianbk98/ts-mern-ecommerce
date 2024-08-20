@@ -32,6 +32,26 @@ productRouter.get(
 );
 
 productRouter.get(
+  "/top4",
+  AsyncHandler(async (req: Request, res: Response) => {
+    const product = await ProductModel.find().sort({ rating: "desc" }).limit(4);
+    res.json(product);
+    return;
+  })
+);
+
+productRouter.get(
+  "/latest",
+  AsyncHandler(async (req: Request, res: Response) => {
+    const product = await ProductModel.find()
+      .sort({ createdAt: "desc" })
+      .limit(4);
+    res.json(product);
+    return;
+  })
+);
+
+productRouter.get(
   "/:slug",
   AsyncHandler(async (req: Request, res: Response) => {
     const product = await ProductModel.findOne({ slug: req.params.slug });
