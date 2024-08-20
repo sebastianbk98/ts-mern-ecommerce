@@ -1,20 +1,29 @@
+import { useContext, useEffect } from "react";
+import { Store } from "../Store";
+import { Link, useNavigate } from "react-router-dom";
+import { useGetAllOrdersByAdmin } from "../hooks/orderHooks";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { getError } from "../utils";
 import { ApiError } from "../types/ApiError";
-import { Link } from "react-router-dom";
-import { useGetAllOrdersByUser } from "../hooks/orderHooks";
-import { ListGroup, ListGroupItem } from "react-bootstrap";
+import { ListGroup } from "react-bootstrap";
 
-function OrdersPage() {
-  const { data, isLoading, error } = useGetAllOrdersByUser();
+function OrdersAdminPage() {
+  const {
+    state: { user },
+  } = useContext(Store);
+  const navigate = useNavigate();
+  const { data, isLoading, error } = useGetAllOrdersByAdmin();
+  useEffect(() => {
+    if (!user || !user.isAdmin) {
+      navigate("/signin");
+    }
+  }, [user, navigate]);
   return (
     <>
-      <Helmet>
-        <title>Orders History</title>
-      </Helmet>
-      <h1>Orders History</h1>
+      <Helmet>All Orders</Helmet>
+      <h1>Orders History (Admin)</h1>
       {isLoading ? (
         <LoadingBox />
       ) : error ? (
@@ -33,7 +42,7 @@ function OrdersPage() {
               key={order._id}
               className="text-decoration-none"
             >
-              <ListGroupItem className="d-flex align-items-center justify-content-between m-1">
+              <ListGroup.Item className="d-flex align-items-center justify-content-between m-1">
                 <div>
                   <p>{order.orderItems.length} items</p>
                   <p className="fw-bold"> ${order.totalPrice}</p>
@@ -41,7 +50,7 @@ function OrdersPage() {
                 <MessageBox variant={order.isPaid ? "success" : "warning"}>
                   {order.isPaid ? "Paid" : "Not Paid"}
                 </MessageBox>
-              </ListGroupItem>
+              </ListGroup.Item>
             </Link>
           ))}
         </ListGroup>
@@ -50,4 +59,4 @@ function OrdersPage() {
   );
 }
 
-export default OrdersPage;
+export default OrdersAdminPage;

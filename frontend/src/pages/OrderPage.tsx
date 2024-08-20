@@ -2,6 +2,7 @@
 // import { Store } from "../Store";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
+  useDeliverOrderMutation,
   useGetorderDetailsQuery,
   usePayOrderMutation,
 } from "../hooks/orderHooks";
@@ -24,6 +25,8 @@ function OrderPage() {
   const navigate = useNavigate();
   const { id: orderId } = useParams();
   const { mutateAsync: payOrder, isPending } = usePayOrderMutation();
+  const { mutateAsync: deliverOrder, isPending: isDeliveryPending } =
+    useDeliverOrderMutation();
   const {
     data: orderQuery,
     isLoading,
@@ -45,6 +48,15 @@ function OrderPage() {
       toast.error(getError(error as ApiError));
     }
   };
+  const onDeliverHandler = async () => {
+    try {
+      const data = await deliverOrder(orderId!);
+      toast.success(data.message);
+      setOrder(data.order);
+    } catch (error) {
+      toast.error(getError(error as ApiError));
+    }
+  };
   useEffect(() => {
     if (!user) {
       navigate(`/signin?redirect/orders/${orderId}`);
@@ -52,6 +64,11 @@ function OrderPage() {
     }
     if (isSuccess) {
       if (orderQuery) {
+        console.log(orderQuery.user, user._id);
+        if (user._id !== orderQuery.user && !user.isAdmin) {
+          navigate("/orders");
+          return;
+        }
         setOrder(orderQuery);
       }
     }
@@ -182,12 +199,29 @@ function OrderPage() {
                   </Row>
                 </ListGroup.Item>
               </ListGroup>
-              <div className="d-grid">
+              <div className="d-grid m-1">
                 <Button onClick={onPayOrderHandler} disabled={order.isPaid}>
-                  Pay with {order.paymentMethod} (Test)
+                  {order.isPaid
+                    ? "Already Paid"
+                    : `Pay with ${order.paymentMethod} (Test)`}
                   {isPending && <LoadingBox />}
                 </Button>
               </div>
+              {user?.isAdmin && (
+                <div className="d-grid m-1">
+                  <Button
+                    onClick={onDeliverHandler}
+                    disabled={order.isDelivered || !order.isPaid}
+                  >
+                    {order.isDelivered
+                      ? "Already Delivered"
+                      : !order.isPaid
+                      ? "`Deliver Order (Not Yet Paid)`"
+                      : `Deliver Order (Test)`}
+                    {isDeliveryPending && <LoadingBox />}
+                  </Button>
+                </div>
+              )}
             </Card.Body>
           </Card>
         </Col>

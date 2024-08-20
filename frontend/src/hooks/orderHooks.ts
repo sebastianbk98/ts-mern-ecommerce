@@ -41,10 +41,31 @@ export const usePayOrderMutation = () =>
       ).data,
   });
 
-export const useGetAllOrders = () =>
+export const useDeliverOrderMutation = () =>
+  useMutation({
+    mutationFn: async (orderId: string) =>
+      (
+        await apiClient.put<{ message: string; order: Order }>(
+          `orders/${orderId}/deliver`
+        )
+      ).data,
+  });
+
+export const useGetAllOrdersByUser = () =>
   useQuery({
     queryKey: ["orders"],
     queryFn: async () =>
       (await apiClient.get<{ message: string; orders: Order[] }>("orders/"))
         .data,
+  });
+
+export const useGetAllOrdersByAdmin = () =>
+  useQuery({
+    queryKey: ["orders"],
+    queryFn: async () =>
+      (
+        await apiClient.get<{ message: string; orders: Order[] }>(
+          "orders/admin"
+        )
+      ).data,
   });

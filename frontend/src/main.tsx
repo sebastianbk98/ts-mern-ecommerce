@@ -25,6 +25,8 @@ import PlaceOrderPage from "./pages/PlaceOrderPage.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import OrderPage from "./pages/OrderPage.tsx";
 import OrdersPage from "./pages/OrdersPage.tsx";
+import AdminRoute from "./components/AdminRoute.tsx";
+import OrdersAdminPage from "./pages/OrdersAdminPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,6 +42,9 @@ const router = createBrowserRouter(
         <Route path="/placeorder" element={<PlaceOrderPage />} />
         <Route path="/orders/:id" element={<OrderPage />} />
         <Route path="/orders/" element={<OrdersPage />} />
+      </Route>
+      <Route path="" element={<AdminRoute />}>
+        <Route path="/orders/admin" element={<OrdersAdminPage />} />
       </Route>
 
       {/* <Route path="dashboard" element={<Dashboard />} /> */}

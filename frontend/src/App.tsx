@@ -71,10 +71,17 @@ const App = () => {
                     align={{ xxl: "start" }}
                   >
                     <NavDropdown.Item>
-                      <Link className="dropdown-item" to={`/orders/`}>
+                      <Link className="dropdown-item" to={"/orders/"}>
                         Order History
                       </Link>
                     </NavDropdown.Item>
+                    {user.isAdmin && (
+                      <NavDropdown.Item>
+                        <Link className="dropdown-item" to={"/orders/admin"}>
+                          Order History (Admin)
+                        </Link>
+                      </NavDropdown.Item>
+                    )}
                     <NavDropdown.Item>
                       <Link
                         className="dropdown-item"

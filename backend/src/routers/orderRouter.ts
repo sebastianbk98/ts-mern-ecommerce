@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import AsyncHandler from "express-async-handler";
-import { isAuth } from "../utils";
+import { isAdmin, isAuth } from "../utils";
 import { Item, Order, OrderModel } from "../models/orderModel";
 import { CartItem } from "../types/Cart";
 import { mongoose } from "@typegoose/typegoose";
@@ -44,7 +44,18 @@ orderRouter.get(
   "/",
   isAuth,
   AsyncHandler(async (req: Request, res: Response) => {
-    const orders = await OrderModel.find({ user: req.user._id });
+    const orders = await OrderModel.find({ user: req.user._id }).sort({
+      createdAt: "desc",
+    });
+    res.json({ message: "Order History Found", orders: orders });
+  })
+);
+
+orderRouter.get(
+  "/admin",
+  isAdmin,
+  AsyncHandler(async (req: Request, res: Response) => {
+    const orders = await OrderModel.find().sort({ createdAt: "desc" });
     res.json({ message: "Order History Found", orders: orders });
   })
 );
@@ -81,5 +92,20 @@ orderRouter.put(
     };
     const updatedOrder = await order.save();
     res.json({ message: "Payment success", order: updatedOrder });
+  })
+);
+
+orderRouter.put(
+  "/:id/deliver",
+  isAdmin,
+  AsyncHandler(async (req: Request, res: Response) => {
+    const order = await OrderModel.findById(req.params.id);
+    if (!order) {
+      res.status(404).json({ message: "Order Not Found" });
+      return;
+    }
+    order.isDelivered = true;
+    const updatedOrder = await order.save();
+    res.json({ message: "Delivery success", order: updatedOrder });
   })
 );
