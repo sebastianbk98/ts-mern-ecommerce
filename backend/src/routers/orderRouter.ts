@@ -3,7 +3,6 @@ import AsyncHandler from "express-async-handler";
 import { isAdmin, isAuth } from "../utils";
 import { Item, Order, OrderModel } from "../models/orderModel";
 import { CartItem } from "../types/Cart";
-import { mongoose } from "@typegoose/typegoose";
 
 export const orderRouter = Router();
 
@@ -97,7 +96,7 @@ orderRouter.put(
 
 orderRouter.put(
   "/:id/deliver",
-  isAdmin,
+  isAuth,
   AsyncHandler(async (req: Request, res: Response) => {
     const order = await OrderModel.findById(req.params.id);
     if (!order) {

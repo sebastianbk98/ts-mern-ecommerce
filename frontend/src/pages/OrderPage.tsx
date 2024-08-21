@@ -206,21 +206,19 @@ function OrderPage() {
                   {isPending && <LoadingBox />}
                 </Button>
               </div>
-              {user?.isAdmin && (
-                <div className="d-grid m-1">
-                  <Button
-                    onClick={onDeliverHandler}
-                    disabled={order.isDelivered || !order.isPaid}
-                  >
-                    {order.isDelivered
-                      ? "Already Delivered"
-                      : !order.isPaid
-                      ? "`Deliver Order (Not Yet Paid)`"
-                      : `Deliver Order (Test)`}
-                    {isDeliveryPending && <LoadingBox />}
-                  </Button>
-                </div>
-              )}
+              <div className="d-grid m-1">
+                <Button
+                  onClick={onDeliverHandler}
+                  disabled={order.isDelivered || !order.isPaid}
+                >
+                  {order.isDelivered
+                    ? "Already Delivered"
+                    : !order.isPaid
+                    ? "`Deliver Order (Not Yet Paid)`"
+                    : `Deliver Order (Test)`}
+                  {isDeliveryPending && <LoadingBox />}
+                </Button>
+              </div>
             </Card.Body>
           </Card>
         </Col>
