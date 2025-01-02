@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ProductPage from "./pages/ProductPage.tsx";
 import HomePage from "./pages/HomePage.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { StoreProvider } from "./Store.tsx";
 import CartPage from "./pages/CartPage.tsx";
 import SigninPage from "./pages/SigninPage.tsx";
@@ -54,9 +54,6 @@ const router = createBrowserRouter(
         <Route path="products/:slug" element={<ProductDetailsAdminPage />} />
         <Route path="products/:slug/edit" element={<EditProductPage />} />
       </Route>
-
-      {/* <Route path="dashboard" element={<Dashboard />} /> */}
-      {/* ... etc. */}
     </Route>
   )
 );
@@ -69,7 +66,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <HelmetProvider>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
-          <ReactQueryDevtools initialIsOpen={false} />
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </QueryClientProvider>
       </HelmetProvider>
     </StoreProvider>

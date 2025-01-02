@@ -3,6 +3,13 @@
 * {
   box-sizing: border-box;
 }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
   font-family: "Poppins", sans-serif;
@@ -20,7 +27,13 @@ header {
 }
 
 main {
+  width: 100%;
+  /* height: 100%; */
   padding-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .product-image {
@@ -54,28 +67,104 @@ img.thumbnail {
   border-bottom: 0.2rem solid #a0a0a0;
   color: #a0a0a0;
 }
+
 .checkout-steps > div.active {
   border-bottom: 0.2rem solid #f08000;
   color: #f08000;
 }
 
+#carousel-section {
+  max-height: 100vh;
+  width: 100%;
+}
+
+.carousel-item {
+  background-size: cover;
+  background-position: center;
+}
+.carousel-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to bottom, white, black);
+  opacity: 0.5;
+  z-index: -1;
+}
+
 .carousel-image {
-  height: 80vh;
-  object-fit: cover;
+  height: 60vh;
+  object-fit: contain;
 }
 
 .bg-caption-light {
-  background-color: rgba(200, 200, 200, 0.6);
+  background-color: rgba(200, 200, 200, 0.8);
   border-radius: 16px;
 }
 
 .bg-caption-dark {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   border-radius: 16px;
+}
+
+#latest-section {
+  min-height: 100vh;
+  width: 100%;
+}
+
+#all-products-section {
+  min-height: 100vh;
+  width: 100%;
 }
 
 .card-img-top {
   max-height: 200px;
   width: auto;
-  object-fit: cover;
+  object-fit: contain;
+}
+
+#reviews {
+  max-height: 40vh;
+  overflow: auto;
+}
+
+.hero-section {
+  height: 90vh;
+  width: 100%;
+  background-image: linear-gradient(to bottom, lightblue, lightgreen);
+  background-size: 100% 100%;
+  background-position: 0% 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.hero-content {
+  text-align: center;
+}
+
+.hero-content h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.hero-content button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.hero-content button:hover {
+  background-color: #555;
 }

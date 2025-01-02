@@ -1,12 +1,5 @@
 import { useContext, useEffect } from "react";
-import {
-  Badge,
-  Button,
-  Container,
-  Nav,
-  Navbar,
-  NavDropdown,
-} from "react-bootstrap";
+import { Badge, Button, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Store } from "./Store";
 import { ToastContainer } from "react-toastify";
@@ -115,9 +108,9 @@ const App = () => {
         </Navbar>
       </header>
       <main>
-        <Container className="mt-3">
-          <Outlet />
-        </Container>
+        {/* <Container> */}
+        <Outlet />
+        {/* </Container> */}
       </main>
       <footer className="mt-5 pt-5">
         <div className="text-center">All right reserved</div>
