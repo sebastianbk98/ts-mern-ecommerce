@@ -63,7 +63,9 @@ orderRouter.get(
   "/:id",
   isAuth,
   AsyncHandler(async (req: Request, res: Response) => {
-    const order = await OrderModel.findById(req.params.id);
+    const order = await OrderModel.findById(req.params.id)
+      .populate("orderItems.product")
+      .populate("user");
     if (order) {
       res.status(200).json(order);
       return;

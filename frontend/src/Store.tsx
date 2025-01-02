@@ -59,11 +59,11 @@ const reducer = (state: AppState, action: Action): AppState => {
       const newItem = action.payload;
       // check if item already exist
       const existItem = state.cart.cartItems.find(
-        (item: CartItem) => item._id === newItem._id
+        (item: CartItem) => item.product._id == newItem.product._id
       );
       const cartItems = existItem
         ? state.cart.cartItems.map((item: CartItem) =>
-            item._id === existItem._id ? newItem : item
+            item.product._id == existItem.product._id ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
       //TODO change the local storage to database
@@ -72,7 +72,7 @@ const reducer = (state: AppState, action: Action): AppState => {
     }
     case "CART_REMOVE_ITEM": {
       const cartItems = state.cart.cartItems.filter(
-        (item) => item._id !== action.payload._id
+        (item) => item.product._id !== action.payload.product._id
       );
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
       return {

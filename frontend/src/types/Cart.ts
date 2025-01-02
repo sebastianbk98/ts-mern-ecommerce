@@ -1,11 +1,11 @@
+import { Product } from "./Product";
+
 // type for each item in cart
 export type CartItem = {
   image: string | undefined;
-  slug: string;
   quantity: number;
-  countInStock: number;
   price: number;
-  _id: string;
+  product: Product;
   name: string;
 };
 

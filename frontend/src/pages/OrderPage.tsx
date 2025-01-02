@@ -29,7 +29,7 @@ import {
   useDeleteReviewMutation,
   useEditReviewMutation,
   useGetOrderReviews,
-} from "../hooks/reveiwHooks";
+} from "../hooks/reviewHooks";
 import { Review } from "../types/Review";
 import Rating from "../components/Rating";
 
@@ -200,7 +200,7 @@ function OrderPage() {
               <Card.Body>
                 <ListGroup variant="flush">
                   {order.orderItems.map((item) => (
-                    <ListGroup.Item key={`order-page-${item._id}`}>
+                    <ListGroup.Item key={`order-page-${item.product._id}`}>
                       <Row className="align-items-center">
                         <Col md={6}>
                           <img
@@ -210,7 +210,7 @@ function OrderPage() {
                           ></img>{" "}
                           <Link
                             className="text-decoration-none text-reset"
-                            to={`/product/${item.slug}`}
+                            to={`/product/${item.product.slug}`}
                           >
                             {item.name}
                           </Link>
@@ -227,15 +227,15 @@ function OrderPage() {
                           <MessageBox variant="danger">
                             {getError(reviewError as ApiError)}
                           </MessageBox>
-                        ) : getReview(item._id, reviewsData!.reviews).length ===
-                          0 ? (
+                        ) : getReview(item.product._id, reviewsData!.reviews)
+                            .length === 0 ? (
                           <Button
                             onClick={() => {
                               setModal({
                                 set: "add",
-                                rating: 1,
+                                rating: 5,
                                 review: "",
-                                product: item._id,
+                                product: item.product._id,
                               });
                               setShowModal(true);
                             }}
@@ -248,8 +248,10 @@ function OrderPage() {
                               Review
                               <Rating
                                 rating={
-                                  getReview(item._id, reviewsData!.reviews)[0]
-                                    .rating
+                                  getReview(
+                                    item.product._id,
+                                    reviewsData!.reviews
+                                  )[0].rating
                                 }
                                 numReviews={0}
                               />
@@ -258,14 +260,14 @@ function OrderPage() {
                                 className="ms-2 p-0 m-0"
                                 onClick={() => {
                                   const filteredReview = getReview(
-                                    item._id,
+                                    item.product._id,
                                     reviewsData!.reviews
                                   )[0];
                                   setModal({
                                     set: "edit",
                                     rating: filteredReview.rating,
                                     review: filteredReview.review,
-                                    product: item._id,
+                                    product: item.product._id,
                                     reviewId: filteredReview._id,
                                   });
                                   setShowModal(true);
@@ -276,8 +278,10 @@ function OrderPage() {
                             </div>
                             <div className="w-100 rounded border px-1 py-2">
                               {
-                                getReview(item._id, reviewsData!.reviews)[0]
-                                  .review
+                                getReview(
+                                  item.product._id,
+                                  reviewsData!.reviews
+                                )[0].review
                               }
                             </div>
                             <Button
@@ -285,7 +289,7 @@ function OrderPage() {
                               className="px-1 py-0 mx-1 my-1"
                               onClick={() => {
                                 const filteredReview = getReview(
-                                  item._id,
+                                  item.product._id,
                                   reviewsData!.reviews
                                 )[0];
                                 setModal((prevState) => ({
@@ -359,7 +363,7 @@ function OrderPage() {
               <Card.Body>
                 <ListGroup variant="flush">
                   {order.orderItems.map((item) => (
-                    <ListGroup.Item key={`order-page-${item._id}`}>
+                    <ListGroup.Item key={`order-page-${item.product._id}`}>
                       <Row className="align-items-center">
                         <Col md={6}>
                           <img
@@ -369,7 +373,7 @@ function OrderPage() {
                           ></img>{" "}
                           <Link
                             className="text-decoration-none text-reset"
-                            to={`/product/${item.slug}`}
+                            to={`/product/${item.product.slug}`}
                           >
                             {item.name}
                           </Link>

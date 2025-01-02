@@ -1,6 +1,6 @@
 interface Props {
   rating: number;
-  numReviews: number;
+  numReviews?: number;
   caption?: string;
 }
 
@@ -53,7 +53,7 @@ function Rating({ rating, numReviews, caption }: Props) {
         }
       ></i>
       {caption && <span>{caption}</span>}
-      {numReviews != 0 && <span>{` ${numReviews} reviews`}</span>}
+      {numReviews && numReviews != 0 && <span>{` ${numReviews} reviews`}</span>}
     </div>
   );
 }

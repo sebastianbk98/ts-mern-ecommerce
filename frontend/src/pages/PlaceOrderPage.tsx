@@ -116,7 +116,7 @@ function PlaceOrderPage() {
             <Card.Body>
               <ListGroup variant="flush">
                 {cart.cartItems.map((item) => (
-                  <ListGroup.Item key={item._id}>
+                  <ListGroup.Item key={item.product._id}>
                     <Row className="align-items-center">
                       <Col md={6}>
                         <img
@@ -126,7 +126,7 @@ function PlaceOrderPage() {
                         ></img>{" "}
                         <Link
                           className="text-decoration-none text-reset"
-                          to={`/product/${item.slug}`}
+                          to={`/product/${item.product.slug}`}
                         >
                           {item.name}
                         </Link>

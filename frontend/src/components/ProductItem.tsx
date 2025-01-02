@@ -14,10 +14,13 @@ function ProductItem({ product }: { product: Product }) {
   } = state;
   const addToCartHandler = async () => {
     const cartItem = convertProductToCartItem(product);
-    const existItem = cartItems.find((item) => item._id === cartItem._id);
+    console.log(cartItems);
+    const existItem = cartItems.find(
+      (item) => item.product._id == cartItem.product._id
+    );
     const quantity = existItem ? existItem.quantity + 1 : 1;
     if (existItem) {
-      if (quantity > existItem.countInStock) {
+      if (quantity > existItem.product.countInStock) {
         toast.warn("Sorry, product is out of stock");
         return;
       }

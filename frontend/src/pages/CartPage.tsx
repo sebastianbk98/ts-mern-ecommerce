@@ -18,7 +18,7 @@ const CartPage = () => {
   } = useContext(Store);
 
   const updateCartQuantityHandler = (item: CartItem, quantity: number) => {
-    if (quantity > item.countInStock) {
+    if (quantity > item.product.countInStock) {
       toast.warn("Sorry, product is out of stock");
       return;
     }
@@ -53,7 +53,7 @@ const CartPage = () => {
           ) : (
             <ListGroup>
               {cartItems.map((item: CartItem) => (
-                <ListGroup.Item key={item._id}>
+                <ListGroup.Item key={item.product._id}>
                   <Row className="align-items-center">
                     <Col md={4}>
                       <img
@@ -63,7 +63,7 @@ const CartPage = () => {
                       />{" "}
                       <Link
                         className="text-decoration-none text-reset"
-                        to={item.slug}
+                        to={`/product/${item.product.slug}`}
                       >
                         {item.name}
                       </Link>
