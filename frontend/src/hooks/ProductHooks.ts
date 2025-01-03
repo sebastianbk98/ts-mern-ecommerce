@@ -28,6 +28,27 @@ export const useGetProductDetailsBySlugQuery = (slug: string) =>
       (await apiClient.get<Product>(`products/${slug}`)).data,
   });
 
+export const useGetProductDetailsBySearchTermQuery = (
+  searchTerm: string,
+  pageNumber: number
+) =>
+  useQuery({
+    queryKey: ["products", searchTerm, pageNumber],
+
+    queryFn: async () =>
+      (
+        await apiClient.get<{
+          products: Product[];
+          page: number;
+          pages: number;
+        }>(
+          `products/search?keyword=${encodeURIComponent(
+            searchTerm
+          )}&pageNumber=${pageNumber}`
+        )
+      ).data,
+  });
+
 export const useAddProductMutation = () =>
   useMutation({
     mutationFn: async (formData: FormData) =>

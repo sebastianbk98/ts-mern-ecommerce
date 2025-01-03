@@ -3,6 +3,7 @@ import { Badge, Button, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Store } from "./Store";
 import { ToastContainer } from "react-toastify";
+import SearchBox from "./components/SearchBox";
 
 const App = () => {
   const {
@@ -21,6 +22,11 @@ const App = () => {
     dispatch({ type: "USER_SIGNOUT" });
     navigate("/");
   };
+  const onSearch = (searchTerm: string) => {
+    navigate(
+      `/search${searchTerm ? `?keyword=${encodeURIComponent(searchTerm)}` : ""}`
+    );
+  };
   return (
     <div className="d-flex flex-column vh-100">
       <ToastContainer
@@ -34,12 +40,14 @@ const App = () => {
           <Link className="nav-link" to="/">
             <Navbar.Brand>TS/E-Commerce</Navbar.Brand>
           </Link>
+
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse
             id="responsive-navbar-nav"
             className="justify-content-end text-center"
           >
-            <Nav>
+            <Nav className="align-items-center">
+              <SearchBox onSearch={onSearch} />
               <Button variant="mode" onClick={switchModeHandler}>
                 <i
                   className={mode === "light" ? "fa fa-sun" : "fa fa-moon"}

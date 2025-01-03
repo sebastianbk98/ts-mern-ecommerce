@@ -12,6 +12,7 @@ import { getError } from "../utils";
 import { ApiError } from "../types/ApiError";
 import { useContext } from "react";
 import { Store } from "../Store";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const {
@@ -43,9 +44,9 @@ const HomePage = () => {
         <div className="hero-content">
           <h1>Welcome to My E-Commerce Project</h1>
           <p>Explore our collection of products</p>
-          <button onClick={() => (window.location.href = "#latest-section")}>
-            Shop Now
-          </button>
+          <Link className="nav-link" to="/search">
+            <button>Shop Now</button>
+          </Link>
         </div>
       </div>
       <Container id="carousel-section" className="py-5">

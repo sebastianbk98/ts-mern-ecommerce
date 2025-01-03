@@ -32,6 +32,43 @@ productRouter.get(
 );
 
 productRouter.get(
+  "/search",
+  AsyncHandler(async (req: Request, res: Response) => {
+    const { pageNumber, keyword } = req.query;
+    const pageSize = 8;
+    const page = Number(pageNumber) || 1;
+    const filter = keyword
+      ? {
+          $or: [
+            {
+              name: {
+                $regex: keyword,
+                $options: "i",
+              },
+            },
+            {
+              description: {
+                $regex: keyword,
+                $options: "i",
+              },
+            },
+          ],
+        }
+      : {};
+    const count = await ProductModel.countDocuments({ ...filter });
+    const products = await ProductModel.find({ ...filter })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+    res.status(200).json({
+      products: products,
+      page: page,
+      pages: Math.ceil(count / pageSize),
+    });
+    return;
+  })
+);
+
+productRouter.get(
   "/top4",
   AsyncHandler(async (req: Request, res: Response) => {
     const product = await ProductModel.find().sort({ rating: "desc" }).limit(4);

@@ -31,16 +31,19 @@ import ProductsAdminPage from "./pages/ProductsAdminPage.tsx";
 import ProductDetailsAdminPage from "./pages/ProductDetailsAdminPage.tsx";
 import EditProductPage from "./pages/EditProductPage.tsx";
 import AddProductPage from "./pages/AddProductPage.tsx";
+import SearchPage from "./pages/SearchPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} element={<HomePage />} />
       <Route path="/product/:slug" element={<ProductPage />} />
-      <Route path="/cart" element={<CartPage />} />
+      <Route path="/search/:searchTerm" element={<SearchPage />} />
+      <Route path="/search/" element={<SearchPage />} />
       <Route path="/signin" element={<SigninPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="" element={<ProtectedRoute />}>
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/shipping" element={<ShippingAddressPage />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/placeorder" element={<PlaceOrderPage />} />
