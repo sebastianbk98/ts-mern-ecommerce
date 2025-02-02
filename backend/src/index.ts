@@ -29,7 +29,7 @@ mongoose
 app.use(
   cors({
     credentials: true,
-    origin: [process.env.FRONTEND_URL!],
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
   })
 );
 
@@ -41,7 +41,7 @@ app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/reviews", reviewRouter);
 
-app.use("/seed", seedRouter);
+// app.use("/seed", seedRouter);
 
 const PORT = process.env.PORT!;
 
