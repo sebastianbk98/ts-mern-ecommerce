@@ -6,14 +6,24 @@ import { isAdmin } from "../utils";
 import path from "path";
 import multer from "multer";
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const uploadPath = path.join(__dirname, "../public/images");
-    cb(null, uploadPath);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e5);
-    cb(null, uniqueSuffix + "-" + file.originalname);
+require("dotenv").config();
+
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "products", // Create a folder in Cloudinary
+    format: async (req: Request, file: Express.Multer.File) => "jpeg", // Force format
+    public_id: (req: Request, file: Express.Multer.File) =>
+      Date.now() + "-" + Math.round(Math.random() * 1e5), // Unique filename
   },
 });
 
@@ -109,11 +119,12 @@ productRouter.post(
     try {
       const { name, brand, category, description, price, countInStock } =
         req.body;
-      const image = req.file?.filename;
-      if (!image) {
-        res.status(400).json({ message: "Image is required", product: null });
+      if (!req.file) {
+        res.status(400).json({ message: "Image is required" });
         return;
       }
+
+      const imageUrl = req.file.path;
       let slug = name.split(" ").join("-");
       while (await ProductModel.exists({ slug: slug })) {
         slug = slug + Math.round(Math.random() * 1e5);
@@ -121,7 +132,7 @@ productRouter.post(
       const product = await ProductModel.create({
         name,
         slug,
-        image: `images/${image}`,
+        image: imageUrl,
         brand,
         category,
         description,

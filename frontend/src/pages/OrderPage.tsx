@@ -34,7 +34,6 @@ import {
 import { Review } from "../types/Review";
 import Rating from "../components/Rating";
 import { Product } from "../types/Product";
-import { backendURL } from "../API";
 
 function OrderPage() {
   const {
@@ -258,7 +257,7 @@ function OrderPage() {
                         <Row className="align-items-center">
                           <Col md={6}>
                             <img
-                              src={`${backendURL}/${item.image}`}
+                              src={item.image}
                               alt={item.name}
                               className="img-fluid rounded thumbnail"
                             ></img>{" "}
@@ -421,7 +420,7 @@ function OrderPage() {
                         <Row className="align-items-center">
                           <Col md={6}>
                             <img
-                              src={`${backendURL}/${item.image}`}
+                              src={item.image}
                               alt={item.name}
                               className="img-fluid rounded thumbnail"
                             ></img>{" "}

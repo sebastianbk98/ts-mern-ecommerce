@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import { Button, Card, Col, Container, ListGroup, Row } from "react-bootstrap";
 import MessageBox from "../components/MessageBox";
-import { backendURL } from "../API";
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -59,7 +58,7 @@ const CartPage = () => {
                     <Row className="align-items-center">
                       <Col md={4}>
                         <img
-                          src={`${backendURL}/${item.image}`}
+                          src={item.image}
                           alt={item.name}
                           className="img-fluid rounded thumbnail"
                         />{" "}

@@ -13,7 +13,6 @@ import Rating from "../components/Rating";
 import { toast } from "react-toastify";
 import { useContext, useState } from "react";
 import { Store } from "../Store";
-import { backendURL } from "../API";
 
 function ProductDetailsAdminPage() {
   const { dispatch } = useContext(Store);
@@ -63,11 +62,7 @@ function ProductDetailsAdminPage() {
           <Container>
             <Row>
               <Col md={6}>
-                <img
-                  className="large"
-                  src={`${backendURL}/${product.image}`}
-                  alt={product.name}
-                />
+                <img className="large" src={product.image} alt={product.name} />
               </Col>
               <Col md={6}>
                 <ListGroup variant="flush">

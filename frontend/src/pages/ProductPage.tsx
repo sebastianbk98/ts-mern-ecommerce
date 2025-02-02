@@ -20,7 +20,6 @@ import { Store } from "../Store";
 import { toast } from "react-toastify";
 import { useGetProductReviews } from "../hooks/reviewHooks";
 import ReviewBox from "../components/ReviewBox";
-import { backendURL } from "../API";
 
 const ProductPage = () => {
   const { slug } = useParams();
@@ -93,11 +92,7 @@ const ProductPage = () => {
             md={6}
             className="d-flex align-items-center justify-content-center"
           >
-            <img
-              className="large"
-              src={`${backendURL}/${product.image}`}
-              alt={product.name}
-            />
+            <img className="large" src={product.image} alt={product.name} />
           </Col>
           <Col md={6}>
             <Row className="justify-content-center">

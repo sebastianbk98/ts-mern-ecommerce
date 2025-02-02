@@ -13,7 +13,6 @@ import { ApiError } from "../types/ApiError";
 import { useContext } from "react";
 import { Store } from "../Store";
 import { Link } from "react-router-dom";
-import { backendURL } from "../API";
 
 const HomePage = () => {
   const {
@@ -70,12 +69,12 @@ const HomePage = () => {
                   key={`carousel-item-${product._id}`}
                   className="carousel-item"
                   style={{
-                    backgroundImage: `url(${backendURL}/${product.image})`,
+                    backgroundImage: `url(${product.image})`,
                   }}
                 >
                   <img
                     className="d-block w-100 carousel-image"
-                    src={`${backendURL}/${product.image}`}
+                    src={product.image}
                   />
                   <Carousel.Caption
                     className={

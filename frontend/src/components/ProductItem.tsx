@@ -6,7 +6,6 @@ import { useContext } from "react";
 import { Store } from "../Store";
 import { convertProductToCartItem } from "../utils";
 import { toast } from "react-toastify";
-import { backendURL } from "../API";
 
 function ProductItem({ product }: { product: Product }) {
   const { state, dispatch } = useContext(Store);
@@ -35,11 +34,7 @@ function ProductItem({ product }: { product: Product }) {
   return (
     <Card>
       <Link to={"/product/" + product.slug}>
-        <img
-          src={`${backendURL}/${product.image}`}
-          alt={product.name}
-          className="card-img-top"
-        />
+        <img src={product.image} alt={product.name} className="card-img-top" />
       </Link>
       <CardBody>
         <Link to={"/product/" + product.slug}>
