@@ -47,6 +47,7 @@ main {
 
 img.large {
   max-width: 100%;
+  height: 80vh;
 }
 
 img.thumbnail {
@@ -133,17 +134,21 @@ img.thumbnail {
 .hero-section {
   height: 90vh;
   width: 100%;
-  background-image: linear-gradient(to bottom, lightblue, lightgreen);
-  background-size: 100% 100%;
-  background-position: 0% 100%;
+  background-image: url("assets/hero.jpeg");
+  /* background-size: 100% 100%;
+  background-position: 0% 100%; */
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
+  color: white;
 }
 
 .hero-content {
   text-align: center;
+  background-color: rgba(10, 10, 10, 0.8);
+  padding: 2rem;
+  border-radius: 2rem;
 }
 
 .hero-content h1 {

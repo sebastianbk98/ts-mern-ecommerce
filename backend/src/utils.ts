@@ -18,23 +18,31 @@ export const generateToken = (user: User) => {
 };
 
 export const isAuth = (req: Request, res: Response, next: NextFunction) => {
-  const { authorization } = req.headers;
-  if (authorization) {
-    const token = authorization.split(" ")[1];
-    const decode = jwt.verify(
-      token,
-      process.env.JWT_SECRET || "somethingsecret"
-    );
-    req.user = decode as {
-      _id: string;
-      name: string;
-      email: string;
-      isAdmin: boolean;
-      token: string;
-    };
-    next();
-  } else {
-    res.status(404).json({ message: "No Token" });
+  try {
+    const { authorization } = req.headers;
+    if (authorization) {
+      const token = authorization.split(" ")[1];
+      const decode = jwt.verify(
+        token,
+        process.env.JWT_SECRET || "somethingsecret"
+      );
+      req.user = decode as {
+        _id: string;
+        name: string;
+        email: string;
+        isAdmin: boolean;
+        token: string;
+      };
+      next();
+    } else {
+      res.status(404).json({ message: "No Token" });
+    }
+  } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      res.status(404).json({ message: "Token Expired" });
+      return;
+    }
+    res.status(404).json({ message: "Token Invalid" });
   }
 };
 

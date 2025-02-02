@@ -107,16 +107,8 @@ productRouter.post(
   upload.single("image"),
   AsyncHandler(async (req: Request, res: Response) => {
     try {
-      const {
-        name,
-        brand,
-        category,
-        description,
-        price,
-        countInStock,
-        rating,
-        numReviews,
-      } = req.body;
+      const { name, brand, category, description, price, countInStock } =
+        req.body;
       const image = req.file?.filename;
       if (!image) {
         res.status(400).json({ message: "Image is required", product: null });
@@ -135,8 +127,9 @@ productRouter.post(
         description,
         price,
         countInStock,
-        rating,
-        numReviews,
+        rating: 0,
+        numReviews: 0,
+        ratingTotal: 0,
       });
       res
         .status(201)

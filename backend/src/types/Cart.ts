@@ -1,14 +1,13 @@
+import { Product } from "../models/productModel";
+
 // type for each item in cart
 export type CartItem = {
   image: string | undefined;
-  slug: string;
   quantity: number;
-  countInStock: number;
   price: number;
-  _id: string;
+  product: Product;
   name: string;
 };
-
 // type for shipping address
 export type ShippingAddress = {
   fullName: string;

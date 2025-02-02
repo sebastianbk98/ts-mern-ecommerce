@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Store } from "../Store";
 import { ShippingAddress } from "../types/Cart";
 import { Helmet } from "react-helmet-async";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Container } from "react-bootstrap";
 import CheckoutSteps from "../components/CheckoutSteps";
 
 function ShippingAddressPage() {
@@ -38,7 +38,7 @@ function ShippingAddressPage() {
     navigate("/payment");
   };
   return (
-    <>
+    <Container>
       <CheckoutSteps step1 step2 step3={false} step4={false}></CheckoutSteps>
       <div className="small-container mx-auto text-center">
         <Helmet>
@@ -141,7 +141,7 @@ function ShippingAddressPage() {
           </div>
         </Form>
       </div>
-    </>
+    </Container>
   );
 }
 

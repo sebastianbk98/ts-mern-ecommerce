@@ -18,13 +18,11 @@ orderRouter.post(
       orderItems: req.body.orderItems.map(
         (item: CartItem) =>
           ({
-            _id: item._id,
             name: item.name,
             quantity: item.quantity,
             image: item.image,
             price: item.price,
-            product: item._id,
-            slug: item.slug,
+            product: item.product,
           } as Item)
       ),
       shippingAddress: req.body.shippingAddress,

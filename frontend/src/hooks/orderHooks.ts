@@ -15,7 +15,9 @@ export const useCreateOrderMutation = () =>
       taxPrice: number;
       totalPrice: number;
       user: User;
-    }) => (await apiClient.post("orders", order)).data,
+    }) => {
+      return (await apiClient.post("orders", order)).data;
+    },
   });
 
 export const useGetorderDetailsQuery = (id: string) =>

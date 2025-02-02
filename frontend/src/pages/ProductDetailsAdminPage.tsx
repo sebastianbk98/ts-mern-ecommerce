@@ -8,7 +8,7 @@ import MessageBox from "../components/MessageBox";
 import { getError } from "../utils";
 import { ApiError } from "../types/ApiError";
 import { Helmet } from "react-helmet-async";
-import { Button, Col, ListGroup, Modal, Row } from "react-bootstrap";
+import { Button, Col, Container, ListGroup, Modal, Row } from "react-bootstrap";
 import Rating from "../components/Rating";
 import { toast } from "react-toastify";
 import { useState } from "react";
@@ -49,60 +49,62 @@ function ProductDetailsAdminPage() {
           <Helmet>
             <title>{product.name}</title>
           </Helmet>
-          <Row>
-            <Col md={6}>
-              <img
-                className="large"
-                src={`http://localhost:8080/${product.image}`}
-                alt={product.name}
-              />
-            </Col>
-            <Col md={6}>
-              <ListGroup variant="flush">
-                <ListGroup.Item className="text-center">
-                  <h1>{product.name}</h1>
-                </ListGroup.Item>
-                <ListGroup.Item className="text-center">
-                  <Rating
-                    rating={product.rating}
-                    numReviews={product.numReviews}
-                  />
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex justify-content-between">
-                  <span>Price:</span> <span>${product.price}</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex justify-content-between">
-                  Description
-                  <span>{product.description}</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex justify-content-between">
-                  Category
-                  <span>{product.category}</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex justify-content-between">
-                  Stock
-                  <span>{product.countInStock}</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="d-flex flex-column gap-3">
-                  <Link
-                    to={`/admin/products/${product.slug}/edit`}
-                    className="d-grid text-decoration-none"
-                  >
-                    <Button variant="warning">Edit</Button>
-                  </Link>
-                  <Button
-                    variant="danger"
-                    onClick={() => {
-                      setShowModal(true);
-                    }}
-                    disabled={isPending}
-                  >
-                    Delete {isPending && <LoadingBox />}
-                  </Button>
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-          </Row>
+          <Container>
+            <Row>
+              <Col md={6}>
+                <img
+                  className="large"
+                  src={`http://localhost:8080/${product.image}`}
+                  alt={product.name}
+                />
+              </Col>
+              <Col md={6}>
+                <ListGroup variant="flush">
+                  <ListGroup.Item className="text-center">
+                    <h1>{product.name}</h1>
+                  </ListGroup.Item>
+                  <ListGroup.Item className="text-center">
+                    <Rating
+                      rating={product.rating}
+                      numReviews={product.numReviews}
+                    />
+                  </ListGroup.Item>
+                  <ListGroup.Item className="d-flex justify-content-between">
+                    <span>Price:</span> <span>${product.price}</span>
+                  </ListGroup.Item>
+                  <ListGroup.Item className="d-flex justify-content-between">
+                    Description
+                    <span>{product.description}</span>
+                  </ListGroup.Item>
+                  <ListGroup.Item className="d-flex justify-content-between">
+                    Category
+                    <span>{product.category}</span>
+                  </ListGroup.Item>
+                  <ListGroup.Item className="d-flex justify-content-between">
+                    Stock
+                    <span>{product.countInStock}</span>
+                  </ListGroup.Item>
+                  <ListGroup.Item className="d-flex flex-column gap-3">
+                    <Link
+                      to={`/admin/products/${product.slug}/edit`}
+                      className="d-grid text-decoration-none"
+                    >
+                      <Button variant="warning">Edit</Button>
+                    </Link>
+                    <Button
+                      variant="danger"
+                      onClick={() => {
+                        setShowModal(true);
+                      }}
+                      disabled={isPending}
+                    >
+                      Delete {isPending && <LoadingBox />}
+                    </Button>
+                  </ListGroup.Item>
+                </ListGroup>
+              </Col>
+            </Row>
+          </Container>
           <Modal
             show={showModal}
             onHide={() => {

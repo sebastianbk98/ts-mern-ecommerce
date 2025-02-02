@@ -2,7 +2,7 @@ import { FormEvent, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Store } from "../Store";
 import { Helmet } from "react-helmet-async";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Container } from "react-bootstrap";
 import CheckoutSteps from "../components/CheckoutSteps";
 
 function PaymentPage() {
@@ -32,7 +32,7 @@ function PaymentPage() {
     navigate("/placeorder");
   };
   return (
-    <>
+    <Container>
       <CheckoutSteps step1 step2 step3 step4={false}></CheckoutSteps>
 
       <div className="small-container mx-auto">
@@ -84,7 +84,7 @@ function PaymentPage() {
           </div>
         </Form>
       </div>
-    </>
+    </Container>
   );
 }
 

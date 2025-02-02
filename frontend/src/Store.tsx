@@ -44,6 +44,7 @@ type Action =
   | { type: "CART_CLEAR" }
   | { type: "USER_SIGNIN"; payload: User }
   | { type: "USER_SIGNOUT" }
+  | { type: "USER_RESIGNIN" }
   | { type: "SAVE_SHIPPING_ADDRESS"; payload: ShippingAddress }
   | { type: "SAVE_PAYMENT_METHOD"; payload: string };
 
@@ -114,6 +115,13 @@ const reducer = (state: AppState, action: Action): AppState => {
           totalPrice: 0,
         },
       };
+    }
+    case "USER_RESIGNIN": {
+      localStorage.removeItem("user");
+      // localStorage.removeItem("cartItems");
+      // localStorage.removeItem("shippingAddress");
+      // localStorage.removeItem("paymentMethod");
+      return state;
     }
     case "SAVE_SHIPPING_ADDRESS": {
       localStorage.setItem("shippingAddress", JSON.stringify(action.payload));

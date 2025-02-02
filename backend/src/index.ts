@@ -14,12 +14,11 @@ const app = express();
 
 dotenv.config();
 
-const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://localhost/ts-ecommerce-yt";
+const MONGODB_URI = process.env.MONGODB_URI;
 
 mongoose.set("strictQuery", true);
 mongoose
-  .connect(MONGODB_URI)
+  .connect(MONGODB_URI!)
   .then(() => {
     console.log("Connected to mongodb");
   })
@@ -30,7 +29,7 @@ mongoose
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:5173"],
+    origin: [process.env.FRONTEND_URL!],
   })
 );
 
@@ -44,7 +43,7 @@ app.use("/api/reviews", reviewRouter);
 
 app.use("/seed", seedRouter);
 
-const PORT = 8080;
+const PORT = process.env.PORT!;
 
 app.listen(PORT, () => {
   console.log(`Server started at PORT ${PORT}`);

@@ -14,7 +14,6 @@ function ProductItem({ product }: { product: Product }) {
   } = state;
   const addToCartHandler = async () => {
     const cartItem = convertProductToCartItem(product);
-    console.log(cartItems);
     const existItem = cartItems.find(
       (item) => item.product._id == cartItem.product._id
     );

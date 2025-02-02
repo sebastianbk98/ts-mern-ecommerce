@@ -1,4 +1,5 @@
 import { Order } from "./Order";
+import { Product } from "./Product";
 import { User } from "./User";
 
 export type Review = {
@@ -6,6 +7,6 @@ export type Review = {
   rating: number;
   review: string;
   user: User;
-  product: string;
+  product: Product;
   order: Order;
 };
