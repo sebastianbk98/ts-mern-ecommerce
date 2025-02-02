@@ -121,7 +121,28 @@ const App = () => {
         {/* </Container> */}
       </main>
       <footer className="mt-5 pt-5">
-        <div className="text-center">All right reserved</div>
+        <div className="text-center">
+          TS E-Commerce @{new Date().getFullYear()}
+        </div>
+        <div className="text-center d-flex gap-3 justify-content-center">
+          <Link
+            className="nav-link"
+            to="https://github.com/sebastianbk98/ts-mern-ecommerce"
+          >
+            Github
+          </Link>
+          |
+          <Link className="nav-link" to="https://sebastianbk98.github.io">
+            Portfolio
+          </Link>{" "}
+          |
+          <Link
+            className="nav-link"
+            to="https://www.linkedin.com/in/sebastianbaguskurniawan/"
+          >
+            LindkedIn
+          </Link>
+        </div>
       </footer>
     </div>
   );

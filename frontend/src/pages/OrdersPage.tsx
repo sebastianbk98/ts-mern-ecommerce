@@ -3,12 +3,30 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { getError } from "../utils";
 import { ApiError } from "../types/ApiError";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useGetAllOrdersByUser } from "../hooks/orderHooks";
 import { ListGroup, ListGroupItem, Container } from "react-bootstrap";
+import { useContext, useEffect } from "react";
+import { Store } from "../Store";
 
 function OrdersPage() {
-  const { data, isLoading, error } = useGetAllOrdersByUser();
+  const {
+    state: { user },
+    dispatch,
+  } = useContext(Store);
+  const { data, isLoading, error, isError } = useGetAllOrdersByUser();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate("/signin?redirect=/orders");
+    }
+    if (isError) {
+      if (getError(error as ApiError) === "Token Invalid") {
+        dispatch({ type: "USER_RESIGNIN" });
+        navigate("/signin?redirect=/orders");
+      }
+    }
+  }, [user, navigate, dispatch, isError, error]);
   return (
     <>
       <Helmet>

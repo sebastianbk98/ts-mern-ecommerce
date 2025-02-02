@@ -9,6 +9,7 @@ import { getError } from "../utils";
 import { ApiError } from "../types/ApiError";
 import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
 import Rating from "../components/Rating";
+import { backendURL } from "../API";
 
 function ProductsAdminPage() {
   const {
@@ -52,7 +53,7 @@ function ProductsAdminPage() {
                   <Row className="align-items-center">
                     <Col md={3}>
                       <img
-                        src={`http://localhost:8080/${product.image}`}
+                        src={`${backendURL}/${product.image}`}
                         alt={product.name}
                         className="img-fluid rounded thumbnail"
                       ></img>{" "}

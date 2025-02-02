@@ -10,6 +10,7 @@ import { Helmet } from "react-helmet-async";
 import { Button, Card, Col, ListGroup, Row, Container } from "react-bootstrap";
 import LoadingBox from "../components/LoadingBox";
 import { Order } from "../types/Order";
+import { backendURL } from "../API";
 
 function PlaceOrderPage() {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ function PlaceOrderPage() {
     } catch (error) {
       const errorMessage = getError(error as ApiError);
       toast.error(errorMessage);
-      if (errorMessage === "Token Expired") {
+      if (errorMessage === "Token Invalid") {
         dispatch({ type: "USER_RESIGNIN" });
         navigate("/signin?redirect=/placeorder");
       }
@@ -57,12 +58,12 @@ function PlaceOrderPage() {
   }, [cart, navigate]);
   return (
     <div>
-      <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
       <Helmet>
         <title>Preview Order</title>
       </Helmet>
 
       <Container>
+        <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
         <h1 className="my-3">Preview Order</h1>
         <Row>
           <Col md={8}>
@@ -124,7 +125,7 @@ function PlaceOrderPage() {
                       <Row className="align-items-center">
                         <Col md={6}>
                           <img
-                            src={`http://localhost:8080/${item.image}`}
+                            src={`${backendURL}/${item.image}`}
                             alt={item.name}
                             className="img-fluid rounded thumbnail"
                           ></img>{" "}

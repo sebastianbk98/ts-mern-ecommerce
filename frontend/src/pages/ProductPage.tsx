@@ -20,6 +20,7 @@ import { Store } from "../Store";
 import { toast } from "react-toastify";
 import { useGetProductReviews } from "../hooks/reviewHooks";
 import ReviewBox from "../components/ReviewBox";
+import { backendURL } from "../API";
 
 const ProductPage = () => {
   const { slug } = useParams();
@@ -94,7 +95,7 @@ const ProductPage = () => {
           >
             <img
               className="large"
-              src={`http://localhost:8080/${product.image}`}
+              src={`${backendURL}/${product.image}`}
               alt={product.name}
             />
           </Col>

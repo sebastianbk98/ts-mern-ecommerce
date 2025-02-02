@@ -35,11 +35,11 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
       };
       next();
     } else {
-      res.status(404).json({ message: "No Token" });
+      res.status(404).json({ message: "Token Invalid" });
     }
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
-      res.status(404).json({ message: "Token Expired" });
+      res.status(404).json({ message: "Token Invalid" });
       return;
     }
     res.status(404).json({ message: "Token Invalid" });
@@ -47,26 +47,34 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
-  const { authorization } = req.headers;
-  if (authorization) {
-    const token = authorization.split(" ")[1];
-    const decode = jwt.verify(
-      token,
-      process.env.JWT_SECRET || "somethingsecret"
-    ) as {
-      _id: string;
-      name: string;
-      email: string;
-      isAdmin: boolean;
-      token: string;
-    };
-    if (!decode.isAdmin) {
-      res.status(403).json({ message: "User not an admin" });
+  try {
+    const { authorization } = req.headers;
+    if (authorization) {
+      const token = authorization.split(" ")[1];
+      const decode = jwt.verify(
+        token,
+        process.env.JWT_SECRET || "somethingsecret"
+      ) as {
+        _id: string;
+        name: string;
+        email: string;
+        isAdmin: boolean;
+        token: string;
+      };
+      if (!decode.isAdmin) {
+        res.status(403).json({ message: "User not an admin" });
+        return;
+      }
+      req.user = decode;
+      next();
+    } else {
+      res.status(404).json({ message: "Token Invalid" });
+    }
+  } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      res.status(404).json({ message: "Token Invalid" });
       return;
     }
-    req.user = decode;
-    next();
-  } else {
-    res.status(404).json({ message: "No Token" });
+    res.status(404).json({ message: "Token Invalid" });
   }
 };

@@ -12,14 +12,22 @@ import { ListGroup, Container } from "react-bootstrap";
 function OrdersAdminPage() {
   const {
     state: { user },
+    dispatch,
   } = useContext(Store);
   const navigate = useNavigate();
-  const { data, isLoading, error } = useGetAllOrdersByAdmin();
+  const { data, isLoading, error, isError } = useGetAllOrdersByAdmin();
   useEffect(() => {
     if (!user || !user.isAdmin) {
-      navigate("/signin");
+      const redirect = encodeURI("/admin/orders");
+      navigate("/signin?redirect=" + redirect);
     }
-  }, [user, navigate]);
+    if (isError) {
+      if (getError(error as ApiError) === "Token Invalid") {
+        dispatch({ type: "USER_RESIGNIN" });
+        navigate("/signin?redirect=/admin/orders");
+      }
+    }
+  }, [user, navigate, dispatch, isError, error]);
   return (
     <>
       <Helmet>All Orders</Helmet>

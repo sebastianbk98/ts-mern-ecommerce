@@ -34,10 +34,12 @@ import {
 import { Review } from "../types/Review";
 import Rating from "../components/Rating";
 import { Product } from "../types/Product";
+import { backendURL } from "../API";
 
 function OrderPage() {
   const {
     state: { user },
+    dispatch,
   } = useContext(Store);
   const [order, setOrder] = useState<Order>();
   const navigate = useNavigate();
@@ -49,6 +51,7 @@ function OrderPage() {
     data: orderQuery,
     isLoading,
     error,
+    isError,
     isSuccess,
   } = useGetorderDetailsQuery(orderId!);
   const onPayOrderHandler = async () => {
@@ -64,6 +67,10 @@ function OrderPage() {
       setOrder(data.order);
     } catch (error) {
       toast.error(getError(error as ApiError));
+      if (getError(error as ApiError) === "Token Invalid") {
+        dispatch({ type: "USER_RESIGNIN" });
+        navigate("/signin");
+      }
     }
   };
   const onDeliverHandler = async () => {
@@ -73,6 +80,10 @@ function OrderPage() {
       setOrder(data.order);
     } catch (error) {
       toast.error(getError(error as ApiError));
+      if (getError(error as ApiError) === "Token Invalid") {
+        dispatch({ type: "USER_RESIGNIN" });
+        navigate("/signin");
+      }
     }
   };
 
@@ -81,6 +92,7 @@ function OrderPage() {
     data: reviewsData,
     isLoading: isReviewLoading,
     error: reviewError,
+    isError: isReviewError,
     isSuccess: isReviewSuccess,
     refetch: reviewRefecth,
   } = useGetOrderReviews(orderId!);
@@ -122,7 +134,11 @@ function OrderPage() {
       toast.error(response.message);
       return;
     } catch (error) {
-      toast.error((error as Error).message);
+      toast.error((error as ApiError).message);
+      if (getError(error as ApiError) === "Token Invalid") {
+        dispatch({ type: "USER_RESIGNIN" });
+        navigate("/signin");
+      }
     }
   };
   const onEditReviewHandler = async (e: FormEvent) => {
@@ -146,7 +162,11 @@ function OrderPage() {
       toast.error(response.message);
       return;
     } catch (error) {
-      toast.error((error as Error).message);
+      toast.error((error as ApiError).message);
+      if (getError(error as ApiError) === "Token Invalid") {
+        dispatch({ type: "USER_RESIGNIN" });
+        navigate("/signin");
+      }
     }
   };
   const onDeleteReviewHandler = async () => {
@@ -161,7 +181,11 @@ function OrderPage() {
       toast.error(response.message);
       return;
     } catch (error) {
-      toast.error((error as Error).message);
+      toast.error((error as ApiError).message);
+      if (getError(error as ApiError) === "Token Invalid") {
+        dispatch({ type: "USER_RESIGNIN" });
+        navigate("/signin");
+      }
     }
   };
 
@@ -179,6 +203,18 @@ function OrderPage() {
         setOrder(orderQuery);
       }
     }
+    if (isError) {
+      if (getError(error as ApiError) === "Token Invalid") {
+        dispatch({ type: "USER_RESIGNIN" });
+        navigate("/signin");
+      }
+    }
+    if (isReviewError) {
+      if (getError(reviewError as ApiError) === "Token Invalid") {
+        dispatch({ type: "USER_RESIGNIN" });
+        navigate("/signin");
+      }
+    }
   }, [
     isSuccess,
     navigate,
@@ -187,6 +223,11 @@ function OrderPage() {
     user,
     isReviewSuccess,
     reviewsData,
+    dispatch,
+    isError,
+    error,
+    isReviewError,
+    reviewError,
   ]);
   return isLoading ? (
     <LoadingBox />
@@ -217,7 +258,7 @@ function OrderPage() {
                         <Row className="align-items-center">
                           <Col md={6}>
                             <img
-                              src={`http://localhost:8080/${item.image}`}
+                              src={`${backendURL}/${item.image}`}
                               alt={item.name}
                               className="img-fluid rounded thumbnail"
                             ></img>{" "}
@@ -266,7 +307,6 @@ function OrderPage() {
                                       reviewsData!.reviews
                                     )[0].rating
                                   }
-                                  numReviews={0}
                                 />
                                 <Button
                                   variant="link"
@@ -381,7 +421,7 @@ function OrderPage() {
                         <Row className="align-items-center">
                           <Col md={6}>
                             <img
-                              src={`http://localhost:8080/${item.image}`}
+                              src={`${backendURL}/${item.image}`}
                               alt={item.name}
                               className="img-fluid rounded thumbnail"
                             ></img>{" "}

@@ -1,10 +1,10 @@
 import axios from "axios";
 
+export const backendURL = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
+export const apiURL = import.meta.env.VITE_REACT_APP_API;
+
 const apiClient = axios.create({
-  baseURL:
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:8080/api/"
-      : process.env.API,
+  baseURL: apiURL,
   headers: {
     "Content-type": "application/json",
   },

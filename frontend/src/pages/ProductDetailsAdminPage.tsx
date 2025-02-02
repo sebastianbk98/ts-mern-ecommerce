@@ -11,9 +11,12 @@ import { Helmet } from "react-helmet-async";
 import { Button, Col, Container, ListGroup, Modal, Row } from "react-bootstrap";
 import Rating from "../components/Rating";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { Store } from "../Store";
+import { backendURL } from "../API";
 
 function ProductDetailsAdminPage() {
+  const { dispatch } = useContext(Store);
   const [showModal, setShowModal] = useState(false);
   const { slug } = useParams();
   const {
@@ -24,14 +27,22 @@ function ProductDetailsAdminPage() {
   const { mutateAsync: deleteProduct, isPending } = useDeleteProductMutation();
   const navigate = useNavigate();
   const onDeleteHandler = async () => {
-    setShowModal(false);
-    const data = await deleteProduct(product!._id);
-    if (data.message !== "success") {
-      toast.error(data.message);
-      return;
+    try {
+      setShowModal(false);
+      const data = await deleteProduct(product!._id);
+      if (data.message !== "success") {
+        toast.error(data.message);
+        return;
+      }
+      toast("Product Deleted");
+      navigate("/admin/products");
+    } catch (error) {
+      toast.error(getError(error as ApiError));
+      if (getError(error as ApiError) === "Token Invalid") {
+        dispatch({ type: "USER_RESIGNIN" });
+        navigate("/signin");
+      }
     }
-    toast("Product Deleted");
-    navigate("/admin/products");
   };
   return (
     <>
@@ -54,7 +65,7 @@ function ProductDetailsAdminPage() {
               <Col md={6}>
                 <img
                   className="large"
-                  src={`http://localhost:8080/${product.image}`}
+                  src={`${backendURL}/${product.image}`}
                   alt={product.name}
                 />
               </Col>
