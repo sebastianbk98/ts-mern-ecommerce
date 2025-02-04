@@ -104,6 +104,7 @@ orderRouter.put(
       return;
     }
     order.isDelivered = true;
+    order.deliveredAt = new Date(Date.now());
     const updatedOrder = await order.save();
     res.json({ message: "Delivery success", order: updatedOrder });
   })

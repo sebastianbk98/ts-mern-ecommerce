@@ -53,9 +53,7 @@ function Rating({ rating, numReviews }: Props) {
         }
       ></i>
 
-      {numReviews && numReviews > 0 && (
-        <span>{` ${numReviews} reviews`} reviews</span>
-      )}
+      {numReviews && numReviews > 0 && <span>{` ${numReviews} reviews`}</span>}
     </div>
   );
 }
