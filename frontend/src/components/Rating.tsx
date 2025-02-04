@@ -1,10 +1,10 @@
 interface Props {
   rating: number;
   numReviews?: number;
-  caption?: string;
 }
 
-function Rating({ rating, numReviews, caption }: Props) {
+function Rating({ rating, numReviews }: Props) {
+  console.log(numReviews);
   return (
     <div className="rating">
       <i
@@ -52,8 +52,10 @@ function Rating({ rating, numReviews, caption }: Props) {
             : "far fa-star"
         }
       ></i>
-      {caption && <span>{caption}</span>}
-      {numReviews && numReviews != 0 && <span>{` ${numReviews} reviews`}</span>}
+
+      {numReviews && numReviews > 0 && (
+        <span>{` ${numReviews} reviews`} reviews</span>
+      )}
     </div>
   );
 }

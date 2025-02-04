@@ -195,7 +195,7 @@ function OrderPage() {
     }
     if (isSuccess) {
       if (orderQuery) {
-        if (user._id !== orderQuery.user._id && !user.isAdmin) {
+        if (user._id !== orderQuery.user._id || !user.isAdmin) {
           navigate("/orders");
           return;
         }

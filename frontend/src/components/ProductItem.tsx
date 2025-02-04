@@ -37,10 +37,14 @@ function ProductItem({ product }: { product: Product }) {
         <img src={product.image} alt={product.name} className="card-img-top" />
       </Link>
       <CardBody>
-        <Link to={"/product/" + product.slug}>
-          <CardTitle>{product.name}</CardTitle>
+        <Link to={"/product/" + product.slug} className="nav-link">
+          <CardTitle className="text-truncate">{product.name}</CardTitle>
         </Link>
-        <Rating rating={product.rating} numReviews={product.numReviews} />
+        {product.numReviews === 0 ? (
+          <Rating rating={product.rating} />
+        ) : (
+          <Rating rating={product.rating} numReviews={product.numReviews} />
+        )}
         <CardText>${product.price}</CardText>
         {product.countInStock === 0 ? (
           <Button variant="light" disabled>

@@ -82,9 +82,11 @@ const HomePage = () => {
                       : "bg-caption-light carousel-caption"
                   }
                 >
-                  <h3>
-                    Top {index + 1}: {product.name}
-                  </h3>
+                  <Link to={`/product/${product.slug}`} className="nav-link">
+                    <h3>
+                      Top {index + 1}: {product.name}
+                    </h3>
+                  </Link>
                   <p>{product.description}</p>
                 </Carousel.Caption>
               </Carousel.Item>

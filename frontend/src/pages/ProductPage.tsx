@@ -98,10 +98,14 @@ const ProductPage = () => {
                         <h1>{product.name}</h1>
                       </ListGroup.Item>
                       <ListGroup.Item>
-                        <Rating
-                          rating={product.rating}
-                          numReviews={product.numReviews}
-                        />
+                        {product.numReviews === 0 ? (
+                          <Rating rating={product.rating} />
+                        ) : (
+                          <Rating
+                            rating={product.rating}
+                            numReviews={product.numReviews}
+                          />
+                        )}
                       </ListGroup.Item>
                       <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
                       <ListGroup.Item>
