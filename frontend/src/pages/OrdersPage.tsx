@@ -35,16 +35,16 @@ function OrdersPage() {
       <Container>
         <h1>Orders History</h1>
         {isLoading ? (
-          <LoadingBox />
+          <div className="d-flex justify-content-center">
+            <LoadingBox />
+          </div>
         ) : error ? (
           <MessageBox variant="danger">
             {getError(error as ApiError)}
           </MessageBox>
         ) : data!.orders.length === 0 ? (
           <MessageBox>
-            <MessageBox>
-              Orders is empty. <Link to={"/"}>Go Shopping</Link>
-            </MessageBox>
+            Orders is empty. <Link to={"/"}>Go Shopping</Link>
           </MessageBox>
         ) : (
           <ListGroup>

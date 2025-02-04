@@ -50,54 +50,54 @@ const HomePage = () => {
         </div>
       </div>
       <Container id="carousel-section" className="py-5">
+        <h1 className="text-center">Top Products</h1>
         {isTop4Loading ? (
-          <LoadingBox />
+          <div className="d-flex justify-content-center">
+            <LoadingBox />
+          </div>
         ) : top4Error ? (
           <MessageBox variant="danger">
             {getError(top4Error as ApiError)}
           </MessageBox>
         ) : top4!.length === 0 ? (
-          <MessageBox variant="danger">
-            Sorry, there is no Top Products.
-          </MessageBox>
+          <MessageBox>Sorry, there is no Top Products.</MessageBox>
         ) : (
-          <>
-            <h1 className="text-center">Top Products</h1>
-            <Carousel fade className="m-5">
-              {top4!.map((product, index) => (
-                <Carousel.Item
-                  key={`carousel-item-${product._id}`}
-                  className="carousel-item"
-                  style={{
-                    backgroundImage: `url(${product.image})`,
-                  }}
+          <Carousel fade className="m-5">
+            {top4!.map((product, index) => (
+              <Carousel.Item
+                key={`carousel-item-${product._id}`}
+                className="carousel-item"
+                style={{
+                  backgroundImage: `url(${product.image})`,
+                }}
+              >
+                <img
+                  className="d-block w-100 carousel-image"
+                  src={product.image}
+                />
+                <Carousel.Caption
+                  className={
+                    mode === "light"
+                      ? "bg-caption-dark carousel-caption"
+                      : "bg-caption-light carousel-caption"
+                  }
                 >
-                  <img
-                    className="d-block w-100 carousel-image"
-                    src={product.image}
-                  />
-                  <Carousel.Caption
-                    className={
-                      mode === "light"
-                        ? "bg-caption-dark carousel-caption"
-                        : "bg-caption-light carousel-caption"
-                    }
-                  >
-                    <h3>
-                      Top {index + 1}: {product.name}
-                    </h3>
-                    <p>{product.description}</p>
-                  </Carousel.Caption>
-                </Carousel.Item>
-              ))}
-            </Carousel>
-          </>
+                  <h3>
+                    Top {index + 1}: {product.name}
+                  </h3>
+                  <p>{product.description}</p>
+                </Carousel.Caption>
+              </Carousel.Item>
+            ))}
+          </Carousel>
         )}
       </Container>
       <Container id="latest-section" className="py-5">
         <h1 className="text-center mb-5">Latest Products</h1>
         {isLatestLoading ? (
-          <LoadingBox />
+          <div className="d-flex justify-content-center">
+            <LoadingBox />
+          </div>
         ) : latestError ? (
           <MessageBox variant="danger">
             {getError(latestError as ApiError)}
@@ -117,7 +117,9 @@ const HomePage = () => {
       <Container id="all-products-section" className="py-5">
         <h1 className="text-center mb-5">All Products</h1>
         {isProductsLoading ? (
-          <LoadingBox />
+          <div className="d-flex justify-content-center">
+            <LoadingBox />
+          </div>
         ) : productsError ? (
           <MessageBox variant="danger">
             {getError(productsError as ApiError)}

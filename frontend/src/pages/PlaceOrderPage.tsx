@@ -187,6 +187,7 @@ function PlaceOrderPage() {
                         type="button"
                         onClick={placeOrderHandler}
                         disabled={cart.cartItems.length === 0 || isPending}
+                        className="d-flex justify-content-center align-items-center"
                       >
                         Place Order {isPending && <LoadingBox />}
                       </Button>

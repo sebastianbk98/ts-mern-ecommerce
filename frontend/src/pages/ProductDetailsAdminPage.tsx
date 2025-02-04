@@ -49,7 +49,9 @@ function ProductDetailsAdminPage() {
         <title>Product Details</title>
       </Helmet>
       {isLoading ? (
-        <LoadingBox />
+        <div className="d-flex justify-content-center">
+          <LoadingBox />
+        </div>
       ) : error ? (
         <MessageBox variant="danger">{getError(error as ApiError)}</MessageBox>
       ) : !product ? (
@@ -103,6 +105,7 @@ function ProductDetailsAdminPage() {
                         setShowModal(true);
                       }}
                       disabled={isPending}
+                      className="d-flex justify-content-center align-items-center"
                     >
                       Delete {isPending && <LoadingBox />}
                     </Button>

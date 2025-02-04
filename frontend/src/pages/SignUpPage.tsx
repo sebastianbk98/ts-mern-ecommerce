@@ -133,7 +133,11 @@ function SignUpPage() {
           />
         </Form.FloatingLabel>
         <div className="mb-3 d-grid">
-          <Button type="submit" disabled={isPending}>
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="d-flex justify-content-center align-items-center"
+          >
             Sign Up {isPending && <LoadingBox />}
           </Button>
         </div>

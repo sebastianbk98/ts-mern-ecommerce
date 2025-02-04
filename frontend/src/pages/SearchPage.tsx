@@ -27,7 +27,9 @@ function SearchPage() {
   return (
     <Container>
       {isLoading ? (
-        <LoadingBox />
+        <div className="d-flex justify-content-center">
+          <LoadingBox />
+        </div>
       ) : error ? (
         <MessageBox variant="danger">{getError(error as ApiError)}</MessageBox>
       ) : data!.products.length === 0 ? (

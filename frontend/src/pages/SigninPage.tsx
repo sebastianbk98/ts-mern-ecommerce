@@ -80,7 +80,11 @@ const SigninPage = () => {
           />
         </Form.FloatingLabel>
         <div className="mb-3 d-grid">
-          <Button type="submit" disabled={isPending}>
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="d-flex justify-content-center align-items-center"
+          >
             Sign In {isPending && <LoadingBox />}
           </Button>
         </div>

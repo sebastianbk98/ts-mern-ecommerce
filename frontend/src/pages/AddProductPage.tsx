@@ -149,7 +149,11 @@ function AddProductPage() {
             placeholder="Product Stock"
           />
           <div className="d-grid">
-            <Button type="submit" disabled={isPending}>
+            <Button
+              type="submit"
+              className="d-flex justify-content-center align-items-center"
+              disabled={isPending}
+            >
               Add Product {isPending && <LoadingBox />}
             </Button>
           </div>

@@ -34,13 +34,15 @@ function ProductsAdminPage() {
           </Link>
         </Container>
         {isLoading ? (
-          <LoadingBox />
+          <div className="d-flex justify-content-center">
+            <LoadingBox />
+          </div>
         ) : error ? (
           <MessageBox variant="danger">
             {getError(error as ApiError)}
           </MessageBox>
         ) : data?.length === 0 ? (
-          <MessageBox variant="danger">Product is empty.</MessageBox>
+          <MessageBox>Product is empty.</MessageBox>
         ) : (
           <ListGroup variant="flush">
             {data?.map((product) => (
